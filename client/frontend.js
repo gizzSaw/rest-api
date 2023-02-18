@@ -6,18 +6,35 @@ new Vue({
         return {
             form: {
                 name: '',
-                value: ''
+                value: '',
             },
-            contacts: []
+            contacts: [
+                {id: 1, name: 'Saveliy', value: '+7-960-120-16-11', marked: false}
+            ]
+        }
+    },
+    computed: {
+        canCreate() {
+            return this.form.value.trim() && this.form.name.trim()
         }
     },
     methods: {
         createContact() {
             const {...contact} = this.form
 
-            this.contacts.push({...contact, id: Date.now()})
+            this.contacts.push({...contact, id: Date.now(), marked: false})
 
             this.form.name = this.form.value = ''
+            
+        },
+        markContact(id) {
+            const contact = this.contacts.find(c => c.id === id)
+            console.log(typeof id, id, contact.marked)
+            contact.marked = true
+            console.log(typeof id, id, contact.marked)
+        },
+        removeContact(id) {
+            this.contacts = this.contacts.filter(c => c.id !== id)
         }
     }
 })
